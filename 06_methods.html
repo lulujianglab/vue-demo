@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="https://cdn.bootcss.com/vue/2.6.4/vue.js"></script>
+
+    <script type="text/javascript">
+
+      new Vue({
+        el: '#app',       
+        template: `
+          <div>
+            <h1 v-show="isShow">1</h1>
+            <h1 v-show="isShow">2</h1>
+            <h1 v-show="isShow">3</h1>
+            <h1 v-if="isShow">4</h1>
+
+            <button @click="changeIsShow">点我行为更酷</button>
+          </div>
+          
+        `,
+        data: () => { 
+          return {
+            isShow: true
+          }
+        },
+        methods: {
+          // key代表函数名，value是函数
+          // changeIsShow: function(e) {
+          //   // this就是data函数return出去的对象
+          //   // vue帮我们处理好了this指向，不是事件对象了
+          //   console.log(e.target)
+          //   console.log(111,this.isShow)
+
+          //   this.isShow = !this.isShow
+          // }
+          changeIsShow(e) {
+            console.log(e.target)
+            console.log(111,this.isShow)
+
+            this.isShow = !this.isShow
+          }
+        },
+      })
+    </script>
+  </body>
+</html>

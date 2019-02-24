@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .a {
+        background: red;
+      }
+      .b {
+        background: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="https://cdn.bootcss.com/vue/2.6.4/vue.js"></script>
+
+    <script type="text/javascript">
+
+      new Vue({
+        el: '#app',       
+        template: `
+          <div>
+            <ul>
+              <li v-for="item in stus" :class="item.myClass">
+                {{ item.name }}
+              </li>
+            </ul>
+            <hr />
+            <ul>
+              <li v-for="(val,key,index) in stus2">
+                val: {{val}}
+                key: {{key}}
+                index: {{index}}
+              </li>
+            </ul>
+          </div>
+        `,
+        data: () => { 
+          return {
+            stus: [{name: '张三',myClass: 'a'},{name: '李四',myClass: 'b'},{name: '王五',myClass: 'a'}],
+            stus2: {'A': '张三', 'B': '李四', 'C': '王五'}
+          }
+        }
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="https://cdn.bootcss.com/vue/2.6.4/vue.js"></script>
+
+    <script type="text/javascript">
+
+      // beforeCreate
+      // created
+      // beforeMount
+      // mounted
+      // beforeUpdate
+      // updated
+      // activated
+      // deactivated
+      // beforeDestroy
+      // destroyed
+      
+      var Test = {
+        template: `<div>
+          我是test组件 {{text}}
+          <button @click="text=text+1">更改</button>
+        </div>`,
+        data() {
+          return {
+            text: 'Hello World'
+          }
+        },
+        activated() {
+          console.log('组件被激活了')
+        },
+        deactivated() {
+          console.log('组件被停用了')
+        },
+        // 对应父组件v-if false 就销毁当前组件
+        beforeDestroy() {
+          // 销毁之前
+          console.log('beforeDestroy')
+          console.log(this.text) // Hello World
+        },
+        destroyed() {
+          // 销毁之后
+          console.log('destroyed')
+          console.log(this.text) // Hello World
+        },
+        beforeCreate() {
+          // 组件创建之前
+          console.log(this.$el) // undefined
+          console.log(this.text) // undefined
+        },
+        created() {
+          // 组件创建之后
+          console.log(this.$el) // undefined
+          console.log(this.text) // Hello World
+        },
+        // created中可以操作数据..并且可以实现vue->页面的影响，应用：发起ajax请求
+        beforeMount() {
+          // vue起作用，装载数据到DOM之前
+          // console.log(document.body.innerHTML) // <div id="app"></div>
+          console.log(this.$el) // undefined
+          console.log('beforeMount')
+        },
+        mounted() {
+          // vue起作用，装载数据到DOM之后
+          // console.log(document.body.innerHTML) // <div>我是test组件 Hello World...</div>
+          console.log(this.$el) // <div>...</div>
+          console.log('mounted')
+        },
+        // 基于数据改变，影响页面 存在虚拟DOM的更新
+        beforeUpdate() { // 改变前
+          console.log(document.body.innerHTML) // <div>我是test组件 Hello World</div>......
+          // console.log(this.$el) // <div>我是test组件 Hello World1</div>
+          // console.log(this.text) // Hello World1
+        },
+        updated() { // 改变后
+          console.log(document.body.innerHTML) // <div>我是test组件 Hello World1</div>......
+          // console.log(this.$el) // <div>我是test组件 Hello World1</div>
+          // console.log(this.text) // Hello World1
+        }
+        // 以上两个是当有更改数据才会触发
+        // 应用：beforeUpdate 可以获取原DOM
+        // updated 可以获取新DOM
+
+        // beforeMount vue启动前的DOM
+        // mounted vue启动后的DOM 只执行一次
+      }
+
+      var App = {
+        components: {
+          test: Test
+        },
+        data() {
+          return {
+            isExist: true
+          }
+        },
+        template: `
+          <!--
+            <div>
+              <test v-if="isExist"></test>
+              <button @click="isExist = !isExist">事关子组件的生死</button>
+            </div>
+          -->
+          <div>
+            <keep-alive>
+                <test v-if="isExist"></test>
+            </keep-alive>
+            <button @click="isExist = !isExist">事关子组件的生死</button>
+          </div>
+        `
+      }
+
+      new Vue({
+        el: '#app',
+        // 声明子组件
+        components: {
+          app: App
+        },       
+        template: '<app/>' // 入口组件
+      })
+    </script>
+  </body>
+</html>

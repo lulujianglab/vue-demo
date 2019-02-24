@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      li {
+      list-style: none;
+      float: left;
+      width: 33%;
+      background: yellowgreen;
+      border: 1px solid black;
+      height: 150px;
+    }  
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="https://cdn.bootcss.com/vue/2.6.4/vue.js"></script>
+
+    <script type="text/javascript">
+
+      var MyLi = {
+        template: `<li>
+          <slot></slot>
+        </li>`
+      }
+
+      Vue.component('my-li', MyLi)
+
+      var App = {
+        template:  `
+          <div>
+            <ul>
+              <my-li><button>1111</button></my-li>
+              <my-li><h1>2222</h1></my-li>
+              <my-li>3</my-li>
+              <my-li>4</my-li>
+              <my-li>5</my-li>
+              <my-li>6</my-li>
+              <my-li>7</my-li>
+              <my-li><h1>8888<h1></my-li>
+              <my-li><button>9999</button></my-li>
+            </ul>
+          </div>
+        `,
+      }
+      
+      new Vue({
+        el: '#app',
+        // 声明子组件
+        components: {
+          app: App
+        },       
+        template: '<app/>' // 入口组件
+      })
+    </script>
+  </body>
+</html>

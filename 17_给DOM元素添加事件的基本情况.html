@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="https://cdn.bootcss.com/vue/2.6.4/vue.js"></script>
+
+    <script type="text/javascript">
+      
+      // 1. 在组件的DOM部分，任意的标签中 写上ref="xxx"
+      // 2. 通过组件对象 this.$refs.xxx 获取到元素
+
+      var App = {
+        template: `<div>
+          <input type="text" v-if="isShow" ref="input" />
+        </div>`,
+
+        data() {
+          return {
+            isShow: false
+          }
+        },
+        mounted() {
+          // 装载数据之后
+          // 显示元素，并给与获取焦点
+          this.isShow = true // 会触发input元素的插入,但这里并不会立马更新DOM，最终代码更新完毕以后，vue才会根据实际的值，进行DOM的操作
+          
+          // 给input元素获取焦点
+          // this.$refs.input.focus()
+
+          // 我们希望在vue真正渲染DOM到页面以后，才操作如下事件
+          this.$nextTick(() => {
+            this.$refs.input.focus()
+          })
+        },
+      }
+
+      new Vue({
+        el: '#app',
+        // 声明子组件
+        components: {
+          app: App
+        },       
+        template: '<app/>' // 入口组件
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+  </head>
+  <body>
+    
+    <div id="app"></div>
+
+    <script src="https://cdn.bootcss.com/vue/2.6.4/vue.js"></script>
+    <!-- 1. 引入vue-router（核心插件） -->
+    <script src="https://cdn.bootcss.com/vue-router/3.0.2/vue-router.js"></script>
+
+    <script type="text/javascript">
+
+      var isLogin = false
+      var Login = {
+        template: `<div>
+          欢迎登录...
+        </div>`,
+        created() {
+          isLogin = true
+        },
+      }
+
+      var Music = {
+        template: `<div>
+          音乐盒子🎵...
+        </div>`
+      }
+      
+      // 2. 安装插件 =》？
+      Vue.use(VueRouter)
+
+      // 3. 创建一个路由对象
+      // console.log(VueRouter)
+      var router = new VueRouter()
+
+      // 可以多次的追加路由规则，动态的获取路由规则
+      router.addRoutes([
+
+        // 默认首页路由
+        {path:'/',redirect:{ name:'login'} },
+
+        {name:'login',path:'/login',component:Login},
+        // meta:{isChecked:true}给未来路由的权限控制..
+        // 全局路由守卫 来做参照条件
+        { name:'music',path: '/music', component:Music, meta:{
+          isChecked:true}} // 更为灵活，可以方便调用后追加路由规则
+      ])
+
+      router.beforeEach((to, from, next) => {
+        // console.log(to)
+        // console.log(from)
+        // next() // 不调用next 就会卡住
+
+        // Login等..放行
+        // if(to.name === 'login' || to.path === '/') {
+        if(!to.meta.isChecked) {
+          next()
+        } else {
+          if (isLogin) {
+            next()
+          } else {
+            alert('请先登录..')
+
+            // 重定向 /login
+            next({ name:'login' })
+          }
+          
+        }
+      })
+      
+      // 6. 指定路由改变局部的位置
+      var App = {
+        template: `
+          <div>
+            
+            <router-link :to="{ name:'login'}">去登录</router-link>
+            <router-link :to="{ name:'music'}">去音乐盒子🎵</router-link>
+          
+            <router-view></router-view>
+          </div>
+        `
+      }
+
+      // 5. 将配置好的路由对象关联到vue实例中
+      new Vue({
+        el: '#app',
+        router: router, // 不加这一步，会导致运行的时候说undefined对象中取不到matched
+        components: {
+          app: App
+        },       
+        template: '<app/>' // 入口组件
+      })
+    </script>
+  </body>
+</html>

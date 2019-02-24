@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="https://cdn.bootcss.com/vue/2.6.4/vue.js"></script>
+
+    <script type="text/javascript">
+
+      // 注册公共的全局组件，省去很多的components: {xxx:Xxx}
+      Vue.component('my-btn', {
+        template: `
+          <button style="background-color:red">漂亮的按钮</button>
+        `
+      })
+      var MyHeader = {
+        template: `<div>
+          我是头部
+          <my-btn/>
+        </div>`
+      }
+      var MyFooter = {
+        template: `<div>
+          我是尾部
+          <my-btn/>
+        </div>`
+      }
+      // 声明入口组件
+      var App = {
+        components: {
+          'my-header': MyHeader,
+          'my-footer': MyFooter
+        },
+        template:  `
+          <div>
+            <my-header/>
+            <hr/>
+            <my-footer/>
+
+            <hr/>
+            App入口组件使用全局组件如下
+            <my-btn/>
+          </div>
+        `
+      }
+      new Vue({
+        el: '#app',
+        components: { // 声明要用的组件们
+          // key是组件名，value是组件对象
+          app: App
+        },       
+        template: '<app/>' // 入口组件
+      })
+    </script>
+  </body>
+</html>

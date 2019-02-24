@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="https://cdn.bootcss.com/vue/2.6.4/vue.js"></script>
+
+    <script type="text/javascript">
+
+      var MyHeader = {
+        template: '<div>我是头部</div>'
+      }
+      // 函数调用的方式创建组件
+      var MyBody = Vue.extend({
+        template: '<div>我是函数调用方式的中部</div>'
+      })
+      // 语法糖
+      // var MyBody = {
+      //   template: '<div>我是中部</div>'
+      // }
+      var MyFooter = {
+        template: '<div>我是尾部</div>'
+      }
+      // 声明入口组件
+      var App = {
+        components: {
+          'my-header': MyHeader,
+          'my-body': MyBody,
+          'my-footer': MyFooter
+        },
+        template:  `
+          <div>
+            <my-header/>
+            <my-body/>
+            <my-footer/>
+          </div>
+        `
+      }
+      new Vue({
+        el: '#app',
+        components: { // 声明要用的组件们
+          // key是组件名，value是组件对象
+          app: App
+        },       
+        template: '<app/>' // 入口组件
+      })
+    </script>
+  </body>
+</html>

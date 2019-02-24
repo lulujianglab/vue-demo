@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="https://cdn.bootcss.com/vue/2.6.4/vue.js"></script>
+
+    <script type="text/javascript">
+      
+      // 1. 在组件的DOM部分，任意的标签中 写上ref="xxx"
+      // 2. 通过组件对象 this.$refs.xxx 获取到元素
+
+      // 子组件，用$refs获取
+      var TempComponent = {
+        template: `<div>
+          我是子组件
+        </div>`
+      }
+
+      // 声明全局组件
+      Vue.component('temp',TempComponent)
+
+      var App = {
+        template: `<div>
+          <temp ref="tmp" />
+          <button ref="btn">我是按钮</button>
+        </div>`,
+
+        beforeCreate() {
+          // 这里不能操作数据，只能初始化事件等
+          // console.log(this.$refs.btn)
+        },
+        created() {
+          // 可以操作数据了
+          // console.log(this.$refs.btn)
+        },
+        beforeMount() {
+          // new Vue 装载 替换<div id="app"> 之前
+          // console.log(this.$refs.btn)
+        },
+        mounted() {
+          // 装载数据之后
+          // console.log(this.$refs.btn) // 获取的是单个DOM元素
+          console.log(this.$refs.tmp.$el) // 获取的是整个DOM元素
+        },
+      }
+
+      new Vue({
+        el: '#app',
+        // 声明子组件
+        components: {
+          app: App
+        },       
+        template: '<app/>' // 入口组件
+      })
+    </script>
+  </body>
+</html>

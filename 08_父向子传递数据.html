@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="https://cdn.bootcss.com/vue/2.6.4/vue.js"></script>
+
+    <script type="text/javascript">
+
+      var Son = {
+        template: `
+          <div>
+            接收到父组件的数据是: {{title}}
+            <h1>1</h1>  
+            <h1>2</h1>  
+            <ul>
+              <li></li>
+            </ul>
+            <button>改变现实</button>
+          </div>
+        `,
+        // 声明接收到的参数
+        props: ['title']
+      }
+      // 其实，父向子传递，就是v-bind给元素的属性赋值
+      var App = {
+        components: {
+          son: Son
+        },
+        template:  `
+          <div>
+            <son :title='xxx'></son>
+          </div>
+        `,
+        data: () => {
+          return {
+            xxx: '我是xxx数据'
+          }
+        }
+      }
+      new Vue({
+        el: '#app',
+        // 声明子组件
+        components: {
+          app: App
+        },       
+        template: '<app/>' // 入口组件
+      })
+    </script>
+  </body>
+</html>
